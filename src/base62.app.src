@@ -1,5 +1,5 @@
 {application, base62,
- [{description, "An OTP library"},
+ [{description, "Provide base 62 encode and decode function"},
   {vsn, "0.1.0"},
   {registered, []},
   {applications,
@@ -9,7 +9,9 @@
   {env,[]},
   {modules, []},
 
-  {maintainers, []},
-  {licenses, ["Apache 2.0"]},
-  {links, []}
+  {maintainers, ["Gilbert Wong"]},
+  {licenses, ["MIT"]},
+  {links, []},
+  {build_tools, ["make", "rebar3"]},
+  {files, ["src", "include", "rebar.config", "README.md", "LICENSE", "Makefile"]}
  ]}.
