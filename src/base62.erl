@@ -1,7 +1,10 @@
 -module(base62).
 
 %% API exports
--export([encode/1, decode/1]).
+-export([encode/1,
+         encode/2,
+         decode/1,
+         decode/2]).
 
 %%====================================================================
 %% API functions
@@ -29,6 +32,9 @@ encode(S) when is_list(S)->
 encode(B) when is_binary(B) ->
     encode(B, <<>>).
 
+%% encode(D, string) ->
+%%     binary_to_list(encode(D)).
+
 %% @doc Decode base62 binary to origin data binary
 decode(L) when is_list(L) ->
     decode(list_to_binary(L));
@@ -36,10 +42,13 @@ decode(B) when is_binary(B) ->
     decode(B, <<>>).
 
 
+
 %%====================================================================
 %% Internal functions
 %%====================================================================
 
+encode(D, string) ->
+    binary_to_list(encode(D));
 encode(<<Index1:6, Index2:6, Index3:6, Index4:6, Rest/binary>>, Acc) ->
     CharList = [encode_char(Index1), encode_char(Index2), encode_char(Index3), encode_char(Index4)],
     NewAcc = <<Acc/binary,(iolist_to_binary(CharList))/binary>>,
@@ -55,6 +64,10 @@ encode(<<Index1:6, Index2:2>>, Acc) ->
 encode(<<>>, Acc) ->
     Acc.
 
+decode(D, integer) ->
+    binary_to_integer(decode(D));
+decode(D, string) ->
+    binary_to_list(decode(D));
 decode(<<Head:8, Rest/binary>>, Acc)
   when bit_size(Rest) >= 8->
     case Head == $9 of

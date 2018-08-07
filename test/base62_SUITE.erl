@@ -9,10 +9,13 @@ all() -> [t_base62_encode].
 
 t_base62_encode(_) ->
     <<"10">> = ?BASE62:decode(?BASE62:encode(10)),
+    10 = ?BASE62:decode(?BASE62:encode(10, string), integer),
     <<"helloworld">> = ?BASE62:decode(?BASE62:encode("helloworld")),
+    "helloworld" = ?BASE62:decode(?BASE62:encode("helloworld", string), string),
     <<"Hello World">> = ?BASE62:decode(
                            binary_to_list(
                              ?BASE62:encode(<<"Hello World">>))
                           ),
+
     <<"9999">> = ?BASE62:decode(?BASE62:encode(<<"9999">>)),
     <<"65535">> = ?BASE62:decode(?BASE62:encode(<<"65535">>)).
