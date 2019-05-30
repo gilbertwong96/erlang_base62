@@ -5,7 +5,6 @@
   {applications, [kernel,stdlib]},
   {env,[]},
   {modules, []},
-  {maintainers, ["Gilbert Wong"]},
   {licenses, ["MIT"]},
   {links, [{"Github", "https://github.com/Gilbert-Wong/base62"}]}
  ]}.
