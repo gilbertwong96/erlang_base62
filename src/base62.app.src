@@ -1,17 +1,11 @@
-{application, base62,
- [{description, "Provide base 62 encode and decode function"},
-  {vsn, "0.1.0"},
+{application, erlang_base62,
+ [{description, "Base62 encoder/decoder in pure Erlang."},
+  {vsn, "git"},
   {registered, []},
-  {applications,
-   [kernel,
-    stdlib
-   ]},
+  {applications, [kernel,stdlib]},
   {env,[]},
   {modules, []},
-
   {maintainers, ["Gilbert Wong"]},
   {licenses, ["MIT"]},
-  {links, []},
-  {build_tools, ["make", "rebar3"]},
-  {files, ["src", "include", "rebar.config", "README.md", "LICENSE", "Makefile"]}
+  {links, [{"Github", "https://github.com/Gilbert-Wong/base62"}]}
  ]}.

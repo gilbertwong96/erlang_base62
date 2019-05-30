@@ -7,7 +7,7 @@
 $ make
 ```
 
-** Simple Usage **
+**Simple Usage**
 
 encode
 ``` erlang
@@ -17,7 +17,7 @@ base62:encode("10").
 ```
 decode
 ``` erlang
-%% decode data to specified format , default foramt is binary
+%% decode data to specified format , default format is binary
 base62:decode(<<"MTA">>),
 base62:decode("MTA"),
 base62:decode(<<"MTA">>,string).
