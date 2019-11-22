@@ -24,7 +24,7 @@
 %% @doc Encode any data to base62 binary
 -spec encode(string()
              | integer()
-             | binary()) -> float().
+             | binary()) -> binary().
 encode(I) when is_integer(I) ->
     encode(integer_to_binary(I));
 encode(S) when is_list(S)->
