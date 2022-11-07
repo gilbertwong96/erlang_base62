@@ -1,4 +1,4 @@
-{application, erlang_base62,
+{application, base62,
  [{description, "Base62 encoder/decoder in pure Erlang."},
   {vsn, "git"},
   {registered, []},
