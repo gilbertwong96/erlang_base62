@@ -1,4 +1,4 @@
-{application, base62,
+{application, erlang_base62,
  [{description, "Base62 encoder/decoder in pure Erlang."},
   {vsn, "git"},
   {registered, []},
@@ -6,5 +6,5 @@
   {env,[]},
   {modules, []},
   {licenses, ["MIT"]},
-  {links, [{"Github", "https://github.com/gilbertwong96/base62"}]}
+  {links, [{"Github", "https://github.com/gilbertwong96/erlang_base62"}]}
  ]}.

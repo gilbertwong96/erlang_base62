@@ -1,4 +1,4 @@
-# base62
+# erlang_base62
 
 
 ## Build
