@@ -6,5 +6,5 @@
   {env,[]},
   {modules, []},
   {licenses, ["MIT"]},
-  {links, [{"Github", "https://github.com/Gilbert-Wong/base62"}]}
+  {links, [{"Github", "https://github.com/gilbertwong96/base62"}]}
  ]}.
