@@ -1,21 +1,23 @@
 # base62
 
 
-**Build**
+## Build
 
 ```
 $ make
 ```
 
-**Simple Usage**
+## Simple Usage
 
-encode
+### encode
+
 ``` erlang
 <<"MTA">> = base62:encode(10),
 base62:encode(<<"10">>),
 base62:encode("10").
 ```
-decode
+
+### decode
 ``` erlang
 %% decode data to specified format , default format is binary
 base62:decode(<<"MTA">>),

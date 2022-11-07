@@ -20,7 +20,6 @@
 %%  62  : 9B
 %%  63  : 9C
 
-
 %% @doc Encode any data to base62 binary
 -spec encode(string()
              | integer()

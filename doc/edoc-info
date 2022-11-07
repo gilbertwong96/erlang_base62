@@ -1,3 +1,0 @@
-%% encoding: UTF-8
-{application,base62}.
-{modules,[base62]}.
