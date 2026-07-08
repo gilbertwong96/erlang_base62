@@ -25,15 +25,34 @@ all() ->
 groups() -> [].
 
 init_per_suite(Config) ->
-    %% Make the bench/legacy snapshot dir available if it has been built.
-    Dirs = [filename:join(["bench", "legacy"]),
-            filename:join(["_build", "test", "lib"])],
+    %% Common Test often runs from a private cwd; resolve against the
+    %% project root by walking upwards looking for `rebar.config'.
+    ProjectRoot = project_root(),
+    CwdLegacy = filename:join([ProjectRoot, "bench", "legacy"]),
+    DefaultEbin = filename:join([ProjectRoot, "_build", "default", "lib",
+                                "erlang_base62", "ebin"]),
+    Dirs = [CwdLegacy, DefaultEbin],
     lists:foldl(fun(Dir, Acc) ->
                     case filelib:is_dir(Dir) of
                         true -> [{legacy_dir, Dir} | Acc];
                         false -> Acc
                     end
                 end, Config, Dirs).
+
+project_root() ->
+    find_root(filename:absname(".")).
+
+find_root(Dir) ->
+    case filelib:is_regular(filename:join(Dir, "rebar.config")) of
+        true -> Dir;
+        false ->
+            Parent = filename:dirname(Dir),
+            case Parent =:= Dir of
+                true -> Dir;
+                false -> find_root(Parent)
+            end
+    end.
+
 end_per_suite(_Config) -> ok.
 init_per_test(_Case, Config) -> Config.
 end_per_test(_Case, _Config) -> ok.
@@ -145,25 +164,32 @@ t_alphabet_output_invariant(_) ->
      || N <- lists:seq(0, 64)],
     ok.
 
-%% If the legacy module snapshot is available under test/ or _build/test/lib,
-%% force a direct comparison. The snapshot is generated on demand by the
-%% bench helper and the test is skipped when it isn't present.
+%% If the legacy module snapshot is available, force a direct comparison.
+%% The snapshot is generated on demand by the bench helper and the test
+%% is skipped when it isn't present.
 t_legacy_compat(Config) ->
-    LegacyDir = ?config(legacy_dir, Config),
-    BeamPath = filename:join(LegacyDir, "base62_legacy.beam"),
-    case filelib:is_regular(BeamPath) of
-        false -> {skip, no_legacy_snapshot};
-        true ->
-            code:add_path(LegacyDir),
+    LegacyDirs = proplists:get_all_values(legacy_dir, Config),
+    case find_legacy(LegacyDirs) of
+        not_found ->
+            {skip, no_legacy_snapshot};
+        Dir ->
+            code:add_path(Dir),
             {module, base62_legacy} = code:load_file(base62_legacy),
             Payload = list_to_binary(lists:seq(0, 255) ++ lists:seq(0, 255)),
+            OldEnc = base62_legacy:legacy_encode(Payload),
             NewEnc = ?BASE62:encode(Payload),
-            OldEnc = base62_legacy:encode(Payload),
-            true = NewEnc =:= OldEnc,
+            true = OldEnc =:= NewEnc,
+            OldDec = base62_legacy:legacy_decode(OldEnc),
             NewDec = ?BASE62:decode(NewEnc),
-            OldDec = base62_legacy:decode(NewEnc),
-            true = NewDec =:= OldDec,
+            true = OldDec =:= NewDec,
             ok
+    end.
+
+find_legacy([]) -> not_found;
+find_legacy([Dir | Rest]) ->
+    case filelib:is_regular(filename:join(Dir, "base62_legacy.beam")) of
+        true -> Dir;
+        false -> find_legacy(Rest)
     end.
 
 %% Decode must error on characters outside the alphabet AND on dangling $9
