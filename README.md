@@ -1,5 +1,9 @@
 # erlang_base62
 
+[![CI](https://github.com/gilbertwong96/erlang_base62/actions/workflows/ci.yml/badge.svg)](https://github.com/gilbertwong96/erlang_base62/actions/workflows/ci.yml)
+[![Hex.pm](https://img.shields.io/hexpm/v/erlang_base62)](https://hex.pm/packages/erlang_base62)
+[![Codecov](https://codecov.io/gh/gilbertwong96/erlang_base62/graph/badge.svg)](https://codecov.io/gh/gilbertwong96/erlang_base62)
+
 A small, fast Base62 codec for Erlang. Accepts binaries, strings (lists of
 bytes), and integers as inputs; bin round-trips through itself, and other
 inputs are normalised to a binary internally.
