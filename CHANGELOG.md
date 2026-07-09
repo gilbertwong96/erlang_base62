@@ -7,6 +7,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [1.1.0] - 2026-07-09
 
+### Requirements
+
+- **Minimum OTP version: 27**. The `-moduledoc`/`-doc` markdown
+  attribute syntax (EEP-48 doc chunks) and `stdlib/base64`-style
+  bit-syntax helpers are only available from OTP 27 onward.
+
 ### Changed
 
 - **Encoder rewrite**: hot path now processes 3 input bytes per iteration

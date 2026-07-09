@@ -2,6 +2,7 @@
  [{description, "Base62 encoder/decoder in pure Erlang."},
   {vsn, "git"},
   {registered, []},
+  {minimum_otp_version, "27"},
   {applications, [kernel,stdlib]},
   {env,[]},
   {modules, []},
