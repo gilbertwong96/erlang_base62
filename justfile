@@ -37,7 +37,6 @@ docs:
 # Remove build artifacts.
 clean:
     rebar3 clean
-    rm -f bench/legacy/base62_legacy.beam
 
 # Internal: compile the bench module into the bench profile's ebin so
 # the bench escripts (which load from _build/bench/...) can find it.

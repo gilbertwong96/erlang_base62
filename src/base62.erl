@@ -297,10 +297,6 @@ finalize_tail_only(Acc, V) ->
     Left = bit_size(Acc) rem 8,
     Need = 8 - Left,
     case Need of
-        0 ->
-            %% Acc is byte-aligned: take all 8 bits of the value byte
-            %% (only 6 are meaningful but the legacy code emits all 8).
-            finalize_tail(<<Acc/bits, V:8>>);
         N when N >= 6 ->
             %% The full 6-bit value fits in the leftover slot.
             finalize_tail(<<Acc/bits, V:6>>);

@@ -32,12 +32,33 @@ init_per_suite(Config) ->
     DefaultEbin = filename:join([ProjectRoot, "_build", "default", "lib",
                                 "erlang_base62", "ebin"]),
     Dirs = [CwdLegacy, DefaultEbin],
+    %% Build the legacy snapshot on demand so t_legacy_compat can
+    %% always run instead of being skipped.
+    ensure_legacy_compiled(CwdLegacy),
     lists:foldl(fun(Dir, Acc) ->
                     case filelib:is_dir(Dir) of
                         true -> [{legacy_dir, Dir} | Acc];
                         false -> Acc
                     end
                 end, Config, Dirs).
+
+ensure_legacy_compiled(Dir) ->
+    Beam = filename:join(Dir, "base62_legacy.beam"),
+    Source = filename:join(Dir, "base62_legacy.erl"),
+    case filelib:is_regular(Beam) of
+        true  -> ok;
+        false ->
+            case filelib:is_regular(Source) of
+                true  -> compile_legacy(Dir, Source);
+                false -> ok
+            end
+    end.
+
+compile_legacy(Dir, Source) ->
+    {ok, _} = compile:file(Source,
+                            [{outdir, Dir},
+                             return_errors]),
+    ok.
 
 project_root() ->
     find_root(filename:absname(".")).
