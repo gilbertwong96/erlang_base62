@@ -1,0 +1,34 @@
+on:
+  push:
+    branches: [master, main, 'feature/**']
+  pull_request:
+    branches: [master, main]
+
+jobs:
+  ci:
+    name: ci
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v7
+
+      - name: Install OTP and rebar3
+        uses: erlef/setup-beam@v1.24.1
+        with:
+          otp-version: '27'
+          rebar3-version: '3'
+
+      - name: Test
+        run: rebar3 ct
+
+      - name: Generate Cobertura coverage report
+        run: rebar3 covertool generate
+
+      - name: Upload coverage to Codecov
+        uses: codecov/codecov-action@v7
+        with:
+          files: _build/test/covertool/erlang_base62.covertool.xml
+          flags: erlang
+          fail_ci_if_error: false
+          verbose: false
