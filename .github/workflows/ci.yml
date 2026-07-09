@@ -9,6 +9,10 @@ jobs:
     name: ci
     runs-on: ubuntu-latest
 
+    permissions:
+      contents: read
+      id-token: write
+
     steps:
       - name: Checkout
         uses: actions/checkout@v7
@@ -30,5 +34,6 @@ jobs:
         with:
           files: _build/test/covertool/erlang_base62.covertool.xml
           flags: erlang
+          token: ${{ secrets.CODECOV_TOKEN }}
           fail_ci_if_error: false
           verbose: false
